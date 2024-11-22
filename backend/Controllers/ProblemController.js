@@ -124,7 +124,7 @@ exports.getProblemDepartment = async (req, res) => {
       // Fetch problems based on both location and department
       const problems = await Problem.find({
         location: location, 
-        department: department
+        tags: department
       });
   
       // Check if any problems were found
@@ -158,7 +158,7 @@ exports.getProblemDepartment = async (req, res) => {
         console.log('Uploaded File:', req.file);
 
         const { email, location, problemDetail, tags, publicCheck, authorityCheck } = req.body;
-        const { id } = req.params; // Extract the ID from request parameters
+        const { id } = req.body; // Extract the ID from request parameters
         
         // Find the existing problem by its ID
         const problem = await Problem.findById(id);
