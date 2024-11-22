@@ -1,5 +1,26 @@
 const Problem = require('../model/Problem'); // Import the Problem model
 
+exports.DeleteProblem = async (req, res) => {
+  try {
+      const { id } = req.params; // Extract the problem ID from the request parameters
+
+      // Attempt to find and delete the problem by its ID
+      const deletedProblem = await Problem.findByIdAndDelete(id);
+
+      // Check if the problem existed and was deleted
+      if (!deletedProblem) {
+          return res.status(404).json({ message: 'Problem not found' });
+      }
+
+      // Return a success message
+      return res.status(200).json({ message: 'Problem deleted successfully', deletedProblem });
+  } catch (error) {
+      console.error('Error deleting problem:', error.message); // Log any error
+      return res.status(500).json({ message: 'Error deleting problem' });
+  }
+};
+
+
 exports.createProblem = async (req, res) => {
     try {
         // Log the incoming request body and file for debugging
@@ -194,4 +215,24 @@ exports.getProblemDepartment = async (req, res) => {
         console.error('Error updating problem entry:', error.message); // Log the error message
         return res.status(500).send("Error updating problem entry.");
     }
+};
+
+exports.getProblemDetail = async (req, res) => {
+  try {
+      const { id } = req.params; // Extract the problem ID from the request parameters
+
+      // Fetch the problem from the database using the ID
+      const problem = await Problem.findById(id);
+
+      // Check if the problem exists
+      if (!problem) {
+          return res.status(404).json({ message: 'Problem not found' });
+      }
+
+      // Return the fetched problem details
+      return res.status(200).json(problem);
+  } catch (error) {
+      console.error('Error fetching problem details:', error.message); // Log any error
+      return res.status(500).json({ message: 'Error fetching problem details' });
+  }
 };

@@ -9,7 +9,9 @@ router.get('/getAllProblem',ProblemController.getAllProblem);
 router.get('/getAllProblem/:location',ProblemController.getProblemLoc);
 router.get('/getProblem/:email',ProblemController.getProblemEmail);
 router.get('/getProblem/:location/:department',ProblemController.getProblemDepartment);
+router.get('/getProblemDetail/:id',ProblemController.getProblemDetail);
 router.post('/updateProblem',upload.single('imageUrl'),ProblemController.updateProblem);
+router.delete('DeleteProblem/:id',ProblemController.DeleteProblem);
 
 // Exporting the router to be used in the main server file
 module.exports = router;
