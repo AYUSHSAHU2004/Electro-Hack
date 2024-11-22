@@ -1,8 +1,8 @@
-const Problem = require('../models/Problem'); // Import the Problem model
+const Problem = require('../model/Problem'); // Import the Problem model
 
 exports.createProblem = async (req, res) => {
     try {
-        // Log the incoming request body and file
+        // Log the incoming request body and file for debugging
         console.log('Request Body:', req.body);
         console.log('Uploaded File:', req.file);
 
@@ -11,6 +11,15 @@ exports.createProblem = async (req, res) => {
         // Validate required fields
         if (!(email && location && problemDetail && tags && publicCheck !== undefined && authorityCheck !== undefined)) {
             return res.status(400).send("All fields (Email, Location, Problem Detail, Tags, Public Check, and Authority Check) are required.");
+        }
+
+        // Parse the boolean fields safely
+        let parsedPublicCheck, parsedAuthorityCheck;
+        try {
+            parsedPublicCheck = JSON.parse(publicCheck);
+            parsedAuthorityCheck = JSON.parse(authorityCheck);
+        } catch (error) {
+            return res.status(400).send("PublicCheck and AuthorityCheck must be valid booleans.");
         }
 
         // Handle image upload
@@ -23,14 +32,14 @@ exports.createProblem = async (req, res) => {
             imageUrl, // Save the image URL to the problem entry
             problemDetail,
             tags,
-            publicCheck: JSON.parse(publicCheck), // Convert publicCheck to boolean if sent as a string
-            authorityCheck: JSON.parse(authorityCheck) // Convert authorityCheck to boolean if sent as a string
+            publicCheck: parsedPublicCheck, // Use parsed boolean values
+            authorityCheck: parsedAuthorityCheck // Use parsed boolean values
         });
 
         // Respond with the created problem
         return res.status(201).json(problem);
     } catch (error) {
-        console.error('Error creating problem entry:', error.message); // Log the error
+        console.error('Error creating problem entry:', error); // Log the full error message for debugging
         return res.status(500).send("Error creating problem entry.");
     }
 };
@@ -56,7 +65,6 @@ exports.getAllProblem = async (req, res) => {
     }
   };
 
-  const Problem = require('../models/Problem'); // Import the Problem model
 
 exports.getProblemLoc = async (req, res) => {
     try {
