@@ -142,3 +142,48 @@ exports.getProblemDepartment = async (req, res) => {
       });
     }
   };
+
+  exports.updateProblem = async (req, res) => {
+    try {
+        // Log the incoming request body and file
+        console.log('Request Body:', req.body);
+        console.log('Uploaded File:', req.file);
+
+        const { email, location, problemDetail, tags, publicCheck, authorityCheck } = req.body;
+        const { id } = req.params; // Extract the ID from request parameters
+        
+        // Find the existing problem by its ID
+        const problem = await Problem.findById(id);
+
+        // Validate required fields
+        if (!(email && location && problemDetail && tags !== undefined && publicCheck !== undefined && authorityCheck !== undefined)) {
+            return res.status(400).send("All fields (Email, Location, Problem Detail, Tags, Public Check, and Authority Check) are required.");
+        }
+        
+        // Check if the problem exists
+        if (!problem) {
+            return res.status(404).json({ message: 'Problem not found' });
+        }
+
+        // Prepare the update data
+        let imageUrl = req.file ? req.file.path : problem.imageUrl; // Use the uploaded image if available, else retain the existing one
+
+        // Update the problem entry
+        problem.email = email;
+        problem.location = location;
+        problem.problemDetail = problemDetail;
+        problem.tags = tags;
+        problem.publicCheck = publicCheck;
+        problem.authorityCheck = authorityCheck;
+        problem.imageUrl = imageUrl; // Save the image URL if provided
+
+        // Save the updated problem
+        await problem.save();
+
+        // Respond with the updated problem data
+        return res.status(200).json(problem);
+    } catch (error) {
+        console.error('Error updating problem entry:', error.message); // Log the error message
+        return res.status(500).send("Error updating problem entry.");
+    }
+};

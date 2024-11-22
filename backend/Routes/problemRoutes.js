@@ -9,6 +9,7 @@ router.get('/getAllProblem',ProblemController.getAllProblem);
 router.get('/getAllProblem/:location',ProblemController.getProblemLoc);
 router.get('/getProblem/:email',ProblemController.getProblemEmail);
 router.get('/getProblem/:location/:department',ProblemController.getProblemDepartment);
+router.post('/updateProblem',upload.single('image'),ProblemController.updateProblem);
 
 // Exporting the router to be used in the main server file
 module.exports = router;
