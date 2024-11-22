@@ -5,7 +5,7 @@ const PostIssue = () => {
   const email = localStorage.getItem("user");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     location: "",
     tags: "",
@@ -24,7 +24,7 @@ const PostIssue = () => {
         setData(response.data);
         setLoading(false);
       } catch (err) {
-        setError(err.message);
+        // setError(err.message);
         setLoading(false);
       }
     };
@@ -86,12 +86,12 @@ const PostIssue = () => {
       }
     } catch (error) {
       console.error("Error during problem submission:", error);
-      setError("Submission failed. Please try again.");
+      // setError("Submission failed. Please try again.");
     }
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="bg-gray-100">
