@@ -55,3 +55,90 @@ exports.getAllProblem = async (req, res) => {
       });
     }
   };
+
+  const Problem = require('../models/Problem'); // Import the Problem model
+
+exports.getProblemLoc = async (req, res) => {
+    try {
+        // Extract location from request parameters
+        const { location } = req.params;
+
+        // Validate that location is provided
+        if (!location) {
+            return res.status(400).send("Location parameter is required.");
+        }
+
+        // Find all problems matching the provided location
+        const problems = await Problem.find({ location });
+
+        // If no problems are found, return a 404 response
+        if (problems.length === 0) {
+            return res.status(404).send("No problems found for the given location.");
+        }
+
+        // Return the problems found
+        return res.status(200).json(problems);
+    } catch (error) {
+        console.error('Error fetching problems by location:', error.message); // Log the error
+        return res.status(500).send("Error fetching problems.");
+    }
+};
+
+exports.getProblemEmail = async (req, res) => {
+    try {
+        // Extract email from request parameters
+        const { email } = req.params;
+
+        // Validate that email is provided
+        if (!email) {
+            return res.status(400).send("Email parameter is required.");
+        }
+
+        // Find all problems matching the provided email
+        const problems = await Problem.find({ email });
+
+        // If no problems are found, return a 404 response
+        if (problems.length === 0) {
+            return res.status(404).send("No problems found for the given email.");
+        }
+
+        // Return the problems found
+        return res.status(200).json(problems);
+    } catch (error) {
+        console.error('Error fetching problems by email:', error.message); // Log the error
+        return res.status(500).send("Error fetching problems.");
+    }
+};
+exports.getProblemDepartment = async (req, res) => {
+    const { location, department } = req.params;  // Extract location and department from URL params
+  
+    try {
+      // Fetch problems based on both location and department
+      const problems = await Problem.find({
+        location: location, 
+        department: department
+      });
+  
+      // Check if any problems were found
+      if (problems.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'No problems found for this location and department',
+        });
+      }
+  
+      // Return the problems
+      res.status(200).json({
+        success: true,
+        message: 'Problems retrieved successfully',
+        data: problems,
+      });
+    } catch (error) {
+      console.error('Error fetching problems:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch problems',
+        error: error.message,
+      });
+    }
+  };
