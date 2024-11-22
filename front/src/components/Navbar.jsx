@@ -33,8 +33,7 @@ const Navbar = () => {
          {
             userRole === 'PUBLIC' ? (
               <>
-                <Link to="/profile" className="text-white hover:text-gray-300">Profile</Link>
-                <Link to="/reports" className="text-white hover:text-gray-300">Reports</Link>
+                <Link to="/user/dashboard" className="text-white hover:text-gray-300">Dashboard</Link>
                 <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : userRole === 'AUTHORITY' ? (
