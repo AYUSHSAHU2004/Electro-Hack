@@ -13,42 +13,48 @@ const App = () => {
 
 
   useEffect(() => {
-    // Listen for changes in the authentication state
-    const unsubscribe = onAuthStateChanged(auth, async(user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser(user); // If the user is logged in, set the user state
+        setUser(user); // Set the user state
         try {
-          const response = await axios.get(
+          // Check email in the "Public" database
+          let response = await axios.get(
             `http://localhost:5000/users/checkPublic/${user.email}`
           );
+          
           if (response.status === 200) {
-            setIsEmailValid(true); // Email exists in the database
-          } else {
-            setIsEmailValid(false);
-          }
-          if(!isEmailValid){
-            const response = await axios.get(
-              `http://localhost:5000/users/checkAuth/${user.email}`
-            );
-            if (response.status === 200) {
-              setIsEmailValid(true); // Email exists in the database
-            } else {
-              setIsEmailValid(false);
-            }
+            setIsEmailValid(true); // Email exists in Public database
+            return; // Exit early since the email is valid
           }
         } catch (error) {
-          console.error('Error validating email:', error);
-          setIsEmailValid(false); // Email not valid
-        } 
+          console.warn("Email not found in Public database. Checking Auth database...");
+        }
+  
+        // If not found in Public, check email in the "Auth" database
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/users/checkAuth/${user.email}`
+          );
+          
+          if (response.status === 200) {
+            setIsEmailValid(true); // Email exists in Auth database
+          } else {
+            setIsEmailValid(false); // Email does not exist in either database
+          }
+        } catch (error) {
+          console.error("Error validating email in Auth database:", error);
+          setIsEmailValid(false); // Handle second API failure
+        }
       } else {
-        setUser(null); // If not, set user state to null
+        setUser(null); // Reset user state if not logged in
+        setIsEmailValid(false); // Reset email validation state
       }
     });
-    
-
+  
     // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
+  
 
   return (
     <Router>
