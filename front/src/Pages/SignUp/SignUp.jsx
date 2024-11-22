@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase/firebase";
 
 const SignUp = ({ onLogin }) => {
   const [role, setRole] = useState("");
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
   const [PublicState, setPublicState] = useState({ phoneNumber: "" });
   const [AuthorityState, setAuthorityState] = useState({
     phoneNumber: "",
@@ -18,14 +21,14 @@ const SignUp = ({ onLogin }) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-
-    // Retrieve the email from localStorage
-
+    
+  
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       localStorage.setItem("user", user.email);
       onLogin(user);
+  
       if (role === "Public") {
         localStorage.setItem("role", "PUBLIC");
         // Send POST request to Public SignUp endpoint
@@ -36,10 +39,12 @@ const SignUp = ({ onLogin }) => {
             phoneNumber: PublicState.phoneNumber, // Include phone number from the form
           }
         );
-
+  
         if (response.status === 201) {
           setSuccess("Successfully registered as Public!");
+          alert("Successfully registered as Public!");
           setPublicState({ phoneNumber: "" }); // Resetting fields after successful registration
+          navigate("/"); // Use the navigate function for redirection
         }
       } else if (role === "Authority") {
         localStorage.setItem("role", "AUTHORITY");
@@ -53,10 +58,12 @@ const SignUp = ({ onLogin }) => {
             Department: AuthorityState.department, // Include department from the form
           }
         );
-
+  
         if (response.status === 201) {
           setSuccess("Successfully registered as Authority!");
+          alert("Successfully registered as Authority!");
           setAuthorityState({ phoneNumber: "", location: "", department: "" }); // Resetting fields after successful registration
+          navigate("/"); // Use the navigate function for redirection
         }
       }
     } catch (error) {
