@@ -11,5 +11,9 @@ router.post('/SignUpPublic', userController.signUpPublic);
 // POST request to '/SignUpAuthority' triggers the signUpAuthority function in the userController
 router.post('/SignUpAuthority', userController.signUpAuthority);
 
+router.get('/checkPublic/:email',userController.checkPublic);
+router.get('/checkAuth/:email',userController.checkAuth);
+
+
 // Exporting the router to be used in the main server file
 module.exports = router;

@@ -36,6 +36,48 @@ exports.signUpPublic = async (req, res) => {
     }
 };
 
+exports.checkPublic = async (req, res) => {
+    const { email } = req.params; // Get email from params
+  
+    try {
+      // Search the Public collection for the email
+      const user = await Public.findOne({ email });
+  
+      if (user) {
+        // If email exists in the Public collection
+        return res.status(200).send({ message: 'Email exists in the Public database' });
+      } else {
+        // If email does not exist
+        return res.status(404).send({ message: 'Email not found in Public database' });
+      }
+    } catch (error) {
+      console.error('Error checking email in Public database:', error);
+      return res.status(500).send({ message: 'Internal Server Error' });
+    }
+  };
+  
+
+  exports.checkAuth = async (req, res) => {
+    const { email } = req.params; // Get email from params
+  
+    try {
+      // Search the Public collection for the email
+      const user = await Authority.findOne({ email });
+  
+      if (user) {
+        // If email exists in the Public collection
+        return res.status(200).send({ message: 'Email exists in the Authority database' });
+      } else {
+        // If email does not exist
+        return res.status(404).send({ message: 'Email not found in Authority database' });
+      }
+    } catch (error) {
+      console.error('Error checking email in Authority database:', error);
+      return res.status(500).send({ message: 'Internal Server Error' });
+    }
+  };
+  
+
 exports.signUpAuthority = async (req, res) => {
     // Extracting necessary data from the request body
     const { email, phoneNumber, Location, Department } = req.body;

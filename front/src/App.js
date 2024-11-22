@@ -19,12 +19,22 @@ const App = () => {
         setUser(user); // If the user is logged in, set the user state
         try {
           const response = await axios.get(
-            `http://localhost:3020/users/checkUser/${user.email}`
+            `http://localhost:5000/users/checkPublic/${user.email}`
           );
           if (response.status === 200) {
             setIsEmailValid(true); // Email exists in the database
           } else {
             setIsEmailValid(false);
+          }
+          if(!isEmailValid){
+            const response = await axios.get(
+              `http://localhost:5000/users/checkAuth/${user.email}`
+            );
+            if (response.status === 200) {
+              setIsEmailValid(true); // Email exists in the database
+            } else {
+              setIsEmailValid(false);
+            }
           }
         } catch (error) {
           console.error('Error validating email:', error);
