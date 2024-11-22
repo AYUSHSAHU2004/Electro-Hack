@@ -25,6 +25,7 @@ const App = () => {
           
           if (response.status === 200) {
             setIsEmailValid(true); // Email exists in Public database
+            localStorage.setItem("Role","PUBLIC");
             return; // Exit early since the email is valid
           }
         } catch (error) {
@@ -38,6 +39,7 @@ const App = () => {
           );
           
           if (response.status === 200) {
+            localStorage.setItem("Role","AUTHORITY");
             setIsEmailValid(true); // Email exists in Auth database
           } else {
             setIsEmailValid(false); // Email does not exist in either database
