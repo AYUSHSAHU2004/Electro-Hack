@@ -77,7 +77,7 @@ const App = () => {
           element=<SignUp onLogin={setUser}/>
         />
         <Route
-          path="/user/post/issue"
+          path="/user/dashboard"
           element=<UserDashboard onLogin={setUser}/>
         />
       </Routes>
