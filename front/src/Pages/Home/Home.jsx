@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation
-import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase/firebase'; // Adjust the path to your Firebase configuration file
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Home = () => {
@@ -11,14 +9,7 @@ const Home = () => {
    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null)
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth); // Sign out the user
-      navigate('/login'); // Redirect to login page
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
-  };
+
 
   useEffect(() => { const fetchData = async () => {
     setLoading(true)

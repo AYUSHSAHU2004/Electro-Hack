@@ -541,26 +541,27 @@ import axios from 'axios';
 
 const DataTable = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://api.example.com/data'); // Replace with your API endpoint
-        setData(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
+    // For now, we'll use the sample data
+    setData([
+      {
+        id: 1,
+        tag: 'Tag 1',
+        description: 'Sample Description 1'
+      },
+      {
+        id: 2,
+        tag: 'Tag 2',
+        description: 'Sample Description 2'
+      },
+      {
+        id: 3,
+        tag: 'Tag 3',
+        description: 'Sample Description 3'
       }
-    };
-
-    fetchData();
+    ]);
   }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="w-full lg:w-2/3 m-1 bg-white shadow-lg text-lg rounded-sm border border-gray-200">
@@ -568,28 +569,22 @@ const DataTable = () => {
         <table className="table-auto w-full">
           <thead className="text-sm font-semibold uppercase text-gray-800 bg-gray-50 mx-auto">
             <tr>
-              <th className="p-2">#</th>
-              <th className="p-2">Problem</th>
-              <th className="p-2">Description</th>
+              <th className="p-2 text-left">#</th>
+              <th className="p-2 text-left">Tag</th>
+              <th className="p-2 text-left">Description</th>
               <th className="p-2 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             {data.map((item, index) => (
-              <tr key={index}>
-                <td className="p-2">{index + 1}</td>
-                <td className="p-2"><img src={item.imageUrl} alt="Problem" className="h-8 w-8 mx-auto" /></td>
-                <td className="p-2">{item.category}</td>
-                <td className="p-2">{item.description}</td>
+              <tr key={item.id} className="border-t border-gray-200">
+                <td className="p-2 text-left">{index + 1}</td>
+                <td className="p-2 text-left">{item.tag}</td>
+                <td className="p-2 text-left">{item.description}</td>
                 <td className="p-2 text-center">
-                  <div className="flex justify-center">
-                    <a href="#" className="rounded-md hover:bg-green-100 text-green-600 p-2 flex justify-between items-center">
-                      <span><h1 className="w-4 h-4 mr-1"></h1></span> Edit
-                    </a>
-                    <button className="rounded-md hover:bg-red-100 text-red-600 p-2 flex justify-between items-center">
-                      <span><h1 className="w-4 h-4 mr-1"></h1></span> Delete
-                    </button>
-                  </div>
+                  <button className="rounded-md bg-blue-500 text-white p-2 hover:bg-blue-700">
+                    Update
+                  </button>
                 </td>
               </tr>
             ))}
@@ -601,5 +596,59 @@ const DataTable = () => {
 };
 
 export default DataTable;
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const MyPage = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Function to fetch data
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://api.example.com/data'); // Replace with your API endpoint
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    // Fetch data on component mount
+    fetchData();
+  }, []); // Empty dependency array ensures this effect runs once when the component mounts
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <div>
+      <h1>Data from API</h1>
+      <div>
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <div key={index}>
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+            </div>
+          ))
+        ) : (
+          <p>No data available.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MyPage;
+
+
+
 
 

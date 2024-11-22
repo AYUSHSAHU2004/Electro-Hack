@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
+    const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const userRole = localStorage.getItem("Role");
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("Role") // Sign out the user
+      localStorage.removeItem("user")
+      navigate('/login'); // Redirect to login page
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   return (
     <nav className="bg-indigo-500 p-4">
@@ -20,13 +35,13 @@ const Navbar = () => {
               <>
                 <Link to="/profile" className="text-white hover:text-gray-300">Profile</Link>
                 <Link to="/reports" className="text-white hover:text-gray-300">Reports</Link>
-                <Link to="/login" className="text-white hover:text-gray-300">Log Out</Link>
+                <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : userRole === 'AUTHORITY' ? (
               <>
                 <Link to="/dashboard" className="text-white hover:text-gray-300">Dashboard</Link>
                 <Link to="/manage-reports" className="text-white hover:text-gray-300">Manage Reports</Link>
-                <Link to="/login" className="text-white hover:text-gray-300">Log Out</Link>
+                <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : null
         } 
@@ -48,11 +63,13 @@ const Navbar = () => {
               <>
                 <Link to="/profile" className="block text-white py-2">Profile</Link>
                 <Link to="/reports" className="block text-white py-2">Reports</Link>
+                <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : userRole === 'AUTHORITY' ? (
               <>
                 <Link to="/dashboard" className="block text-white py-2">Dashboard</Link>
                 <Link to="/manage-reports" className="block text-white py-2">Manage Reports</Link>
+                <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : null
         }
