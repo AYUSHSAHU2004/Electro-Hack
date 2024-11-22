@@ -11,6 +11,7 @@ const Login = ({ onLogin }) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+      
       localStorage.setItem("user",user.email);
       onLogin(user);
     } catch (error) {
