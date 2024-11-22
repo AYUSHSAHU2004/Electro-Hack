@@ -7,10 +7,9 @@ const PostIssue = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
-      email: "",
       location: "",
       tags: "",
-      imageUrl: "",
+      imageUrl: null,
       publicCheck:"",
       authorityCheck:"",
       problemDetail:""
@@ -53,12 +52,48 @@ const PostIssue = () => {
           [name]: value,
         }));
       };
+
+
+      const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFormData((prevState) => ({ ...prevState, imageUrl: file, }));
+      }
+
+
+      const handleSubmmit = async () => {
+        try{
+          const response = await axios.post("http://localhost:5000/problems/createProblem", {
+            location: formData.location,
+            email: email,
+            imageUrl: formData.imageUrl,
+            problemDetail: formData.problemDetail,
+            tags: formData.tags,
+            publicCheck: false,
+            authorityCheck: false
+          });
+
+          if (response.status === 201) {
+            console.log("Successfully registered as Authority!");
+            setFormData({location: "",
+              tags: "",
+              imageUrl: null,
+              publicCheck:"",
+              authorityCheck:"",
+              problemDetail:""}); // Resetting fields after successful registration
+          }
+        }
+
+     catch (error) {
+      console.error("Error during user registration:", error);
+      setError("Registration failed. Please try again.");
+    }
+      }
       
   return (
     <div class="bg-gray-100">
         <div class="flex flex-col mx-3 mt-6 lg:flex-row">
             <div class="w-full lg:w-1/3 m-1">
-                <form class="w-full bg-white shadow-md p-6">
+                <form onSubmit={handleSubmmit} class="w-full bg-white shadow-md p-6">
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full md:w-full px-3 mb-6">
                             <label class="block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2" htmlFor="category_name">Problem Tag</label>
@@ -89,7 +124,7 @@ const PostIssue = () => {
 
                             <p class="mt-2 text-gray-500 tracking-wide">Upload or drag & drop your file SVG, PNG, JPG or GIF. </p>
 
-                            <input id="dropzone-file" type="file" class="hidden" name="category_image" accept="image/png, image/jpeg, image/webp"/>
+                            <input onChange={handleFileChange} id="dropzone-file" type="file" class="hidden" name="category_image" accept="image/png, image/jpeg, image/webp"/>
                             </label>
                         </div>
 
