@@ -44,8 +44,8 @@ const SignUp = ({onLogin}) => {
         const response = await axios.post('http://localhost:5000/users/SignUpAuthority', {
           email: user.email, // Include email from localStorage
           phoneNumber: AuthorityState.phoneNumber, // Include phone number from the form
-          location: AuthorityState.location, // Include location from the form
-          department: AuthorityState.department, // Include department from the form
+          Location: AuthorityState.location, // Include location from the form
+          Department: AuthorityState.department, // Include department from the form
         });
   
         if (response.status === 201) {
