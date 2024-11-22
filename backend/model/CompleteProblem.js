@@ -27,11 +27,11 @@ const problemSchema = new mongoose.Schema({
     },
     publicCheck: {
         type: Boolean,
-        required: true
+        default: true // Default value set to true
     },
     authorityCheck: {
         type: Boolean,
-        required: true
+        default: true // Default value set to true
     }
 });
 
