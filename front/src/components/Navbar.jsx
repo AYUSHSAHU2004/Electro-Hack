@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ isLoggedIn, userRole }) => {
+
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const userRole = localStorage.getItem("Role");
 
   return (
     <nav className="bg-indigo-500 p-4">
@@ -12,21 +15,21 @@ const Navbar = ({ isLoggedIn, userRole }) => {
         </div>
         <div className="hidden md:flex space-x-4">
           <Link to="/about" className="text-white hover:text-gray-300">About</Link>
-          {isLoggedIn ? (
-            userRole === 'Public' ? (
+         {
+            userRole === 'PUBLIC' ? (
               <>
                 <Link to="/profile" className="text-white hover:text-gray-300">Profile</Link>
                 <Link to="/reports" className="text-white hover:text-gray-300">Reports</Link>
+                <Link to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
-            ) : userRole === 'Authority' ? (
+            ) : userRole === 'AUTHORITY' ? (
               <>
                 <Link to="/dashboard" className="text-white hover:text-gray-300">Dashboard</Link>
                 <Link to="/manage-reports" className="text-white hover:text-gray-300">Manage Reports</Link>
+                <Link to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : null
-          ) : (
-            <Link to="/login" className="text-white hover:text-gray-300">Log Out</Link>
-          )}
+        } 
         </div>
         <button 
           className="md:hidden text-white focus:outline-none"
@@ -40,21 +43,19 @@ const Navbar = ({ isLoggedIn, userRole }) => {
       {isMenuOpen && (
         <div className="md:hidden">
           <Link to="/about" className="block text-white py-2">About</Link>
-          {isLoggedIn ? (
-            userRole === 'Public' ? (
+          {
+            userRole === 'PUBLIC' ? (
               <>
                 <Link to="/profile" className="block text-white py-2">Profile</Link>
                 <Link to="/reports" className="block text-white py-2">Reports</Link>
               </>
-            ) : userRole === 'Authority' ? (
+            ) : userRole === 'AUTHORITY' ? (
               <>
                 <Link to="/dashboard" className="block text-white py-2">Dashboard</Link>
                 <Link to="/manage-reports" className="block text-white py-2">Manage Reports</Link>
               </>
             ) : null
-          ) : (
-            <Link to="/login" className="block text-white py-2">Login</Link>
-          )}
+        }
         </div>
       )}
     </nav>

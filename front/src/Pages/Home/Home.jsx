@@ -20,38 +20,56 @@ const Home = () => {
     }
   };
 
-  useEffect(() => { const fetchData = async () => { try { const response = await axios.get('https://api.example.com/data'); 
-     setData(response.data); setLoading(false); } catch (err) { setError(err.message); setLoading(false); } };
-      fetchData(); }, []);
+  useEffect(() => { const fetchData = async () => {
+    setLoading(true)
+     try { 
+      const response = await axios.get('http://localhost:5000/problems/getAllProblem'); 
+     setData(response.data.data); 
+     setLoading(false); 
+    } catch (err) {
+       setError(err.message); 
+       setLoading(false); 
+      } };
+      fetchData(); 
+    }, []);
 
-
-  const response = axios.get("http://localhost:5000/problems/getAllProblem")
-  console.log(response)
+    if (loading) return <p>Loading...</p>;
+     if (error) return <p>Error: {error}</p>;
+      if (data.length === 0) return <p>No data available.</p>;
 
   return (
     <div class="container mx-auto text-center px-2">
-      <h2 className='text-black text-xl md:text-2xl mt-2 mb-2'>Latest Updates</h2>
+      <h2 className='text-black text-xl md:text-2xl mt-2 mb-2'>All Updates</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-2">Card 1</h2>
-        <p class="text-gray-700">Some content for card 1.</p>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-2">Card 2</h2>
-        <p class="text-gray-700">Some content for card 2.</p>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-2">Card 3</h2>
-        <p class="text-gray-700">Some content for card 3.</p>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-2">Card 4</h2>
-        <p class="text-gray-700">Some content for card 4.</p>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-2">Card 5</h2>
-        <p class="text-gray-700">Some content for card 5.</p>
-      </div>
+      {data.map((item, index) => (
+              <div key={index} class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full">
+              <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-52">
+                <img
+                  src={item.imageUrl}
+                  alt="card-image" class="object-cover w-full h-full" />
+              </div>
+              <div class="p-6">
+                <div class="flex items-center justify-between mb-2">
+                  <p class="block font-sans text-base antialiased font-medium leading-relaxed text-blue-gray-900">
+                    {item.tags}
+                  </p>
+                  <p class="block font-sans text-base antialiased font-medium leading-relaxed text-blue-gray-900">
+                    {item.location}
+                  </p>
+                </div>
+                <p class="block font-sans text-sm antialiased font-normal leading-normal text-gray-700 opacity-75">
+                  {item.problemDetail}
+                </p>
+              </div>
+              <div class="p-6 pt-0">
+                <button
+                  class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg shadow-gray-900/10 hover:shadow-gray-900/20 focus:opacity-[0.85] active:opacity-[0.85] active:shadow-none block w-full bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  type="button">
+                  learn more
+                </button>
+              </div>
+            </div>
+      ))}
       <div class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full">
         <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-52">
           <img
