@@ -34,3 +34,24 @@ exports.createProblem = async (req, res) => {
         return res.status(500).send("Error creating problem entry.");
     }
 };
+
+exports.getAllProblem = async (req, res) => {
+    try {
+      // Fetch all problems from the database
+      const problems = await Problem.find();
+  
+      // Return the list of problems
+      res.status(200).json({
+        success: true,
+        message: 'Problems retrieved successfully',
+        data: problems,
+      });
+    } catch (error) {
+      console.error('Error fetching problems:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch problems',
+        error: error.message,
+      });
+    }
+  };
