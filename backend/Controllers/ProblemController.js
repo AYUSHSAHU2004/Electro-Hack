@@ -3,32 +3,47 @@ const Problem = require('../model/Problem'); // Import the Problem model
 const CompleteProblem = require('../model/CompleteProblem'); // Import the model
 
 exports.createCompleteProblem = async (req, res) => {
-    try {
-        console.log('Request Body:', req.body);
+  try {
+    // Log the incoming request body and file for debugging
+    console.log('Request Body:', req.body);
+    console.log('Uploaded File:', req.file);
 
-        const { email, location, imageUrl, problemDetail, tags } = req.body;
+    const { email, location, problemDetail, tags, publicCheck, authorityCheck } = req.body;
 
-        // Validate required fields
-        if (!(email && location && imageUrl && problemDetail && tags)) {
-            return res.status(400).json({ message: "All fields (email, location, imageUrl, problemDetail, tags) are required." });
-        }
-
-        // Create a new CompleteProblem document
-        const newProblem = await CompleteProblem.create({
-            email,
-            location,
-            imageUrl,
-            problemDetail,
-            tags,
-            // publicCheck and authorityCheck will default to true
-        });
-
-        // Respond with the created problem
-        return res.status(201).json({ message: 'CompleteProblem created successfully', newProblem });
-    } catch (err) {
-        console.error('Error creating CompleteProblem:', err.message); // Log the error
-        return res.status(500).json({ message: 'Error creating CompleteProblem', error: err.message });
+    // Validate required fields
+    if (!(email && location && problemDetail && tags && publicCheck !== undefined && authorityCheck !== undefined)) {
+        return res.status(400).send("All fields (Email, Location, Problem Detail, Tags, Public Check, and Authority Check) are required.");
     }
+
+    // Parse the boolean fields safely
+    let parsedPublicCheck, parsedAuthorityCheck;
+    try {
+        parsedPublicCheck = JSON.parse(publicCheck);
+        parsedAuthorityCheck = JSON.parse(authorityCheck);
+    } catch (error) {
+        return res.status(400).send("PublicCheck and AuthorityCheck must be valid booleans.");
+    }
+
+    // Handle image upload
+    let imageUrl = req.file ? req.file.path : null;
+
+    // Create the problem entry
+    const problem = await CompleteProblem.create({
+        email,
+        location,
+        imageUrl, // Save the image URL to the problem entry
+        problemDetail,
+        tags,
+        publicCheck: parsedPublicCheck, // Use parsed boolean values
+        authorityCheck: parsedAuthorityCheck // Use parsed boolean values
+    });
+
+    // Respond with the created problem
+    return res.status(201).json(problem);
+} catch (error) {
+    console.error('Error creating problem entry:', error); // Log the full error message for debugging
+    return res.status(500).send("Error creating problem entry.");
+}
 };
 
 
