@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/users',require('./Routes/userRoutes.js'));
+app.use('/problems',require('./Routes/problemRoutes.js'));
 // Start the server and have it listen on the specified PORT.
 app.listen(PORT, () => {
     // Log a message to the console when the server starts successfully.
