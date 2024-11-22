@@ -533,3 +533,73 @@ export default SignUp;
 </body>
 </html>
 
+
+
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const DataTable = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://api.example.com/data'); // Replace with your API endpoint
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <div className="w-full lg:w-2/3 m-1 bg-white shadow-lg text-lg rounded-sm border border-gray-200">
+      <div className="overflow-x-auto rounded-lg p-3">
+        <table className="table-auto w-full">
+          <thead className="text-sm font-semibold uppercase text-gray-800 bg-gray-50 mx-auto">
+            <tr>
+              <th className="p-2">#</th>
+              <th className="p-2">Problem</th>
+              <th className="p-2">Description</th>
+              <th className="p-2 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td className="p-2">{index + 1}</td>
+                <td className="p-2"><img src={item.imageUrl} alt="Problem" className="h-8 w-8 mx-auto" /></td>
+                <td className="p-2">{item.category}</td>
+                <td className="p-2">{item.description}</td>
+                <td className="p-2 text-center">
+                  <div className="flex justify-center">
+                    <a href="#" className="rounded-md hover:bg-green-100 text-green-600 p-2 flex justify-between items-center">
+                      <span><h1 className="w-4 h-4 mr-1"></h1></span> Edit
+                    </a>
+                    <button className="rounded-md hover:bg-red-100 text-red-600 p-2 flex justify-between items-center">
+                      <span><h1 className="w-4 h-4 mr-1"></h1></span> Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default DataTable;
+
+
