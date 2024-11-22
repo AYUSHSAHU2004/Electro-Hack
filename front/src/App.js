@@ -6,6 +6,7 @@ import axios from 'axios';
 import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp';
 import Home from './Pages/Home/Home';
+import Navbar from './components/Navbar';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -55,9 +56,11 @@ const App = () => {
     return () => unsubscribe();
   }, []);
   
-
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+   const [userRole, setUserRole] =useState('Public');
   return (
     <Router>
+      <Navbar isLoggedIn={isLoggedIn} userRole={userRole}/>
       <Routes>
         <Route
           path="/"
