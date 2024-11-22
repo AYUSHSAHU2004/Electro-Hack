@@ -356,6 +356,25 @@ exports.getProblemDepartment = async (req, res) => {
     }
 };
 
+exports.getCompleteProblemDetail = async(req,res) =>{
+  try {
+    const { id } = req.params; // Extract the problem ID from the request parameters
+
+    // Fetch the problem from the database using the ID
+    const problem = await CompleteProblem.findById(id);
+
+    // Check if the problem exists
+    if (!problem) {
+        return res.status(404).json({ message: 'Problem not found' });
+    }
+
+    // Return the fetched problem details
+    return res.status(200).json(problem);
+} catch (error) {
+    console.error('Error fetching problem details:', error.message); // Log any error
+    return res.status(500).json({ message: 'Error fetching problem details' });
+}
+}
 exports.getProblemDetail = async (req, res) => {
   try {
       const { id } = req.params; // Extract the problem ID from the request parameters
