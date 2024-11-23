@@ -34,11 +34,12 @@ const Modal = ({ isOpen, onClose, data }) => {
             alt="Sample"
             className="w-full h-64 object-cover rounded-lg mb-4"
           />
+          <div className="flex flex-col items-start">
+          <p className="text-gray-700 mb-1">Problem Details:{data.problemDetail}</p>
+          <p className="text-gray-700 mb-1">Location:{data.location}</p>
           {data ? (
-            <div className="flex flex-col items-start">
-              <p className="text-gray-700 mb-1">Problem Details:{data.problemDetail}</p>
-              <p className="text-gray-700 mb-1">Location:{data.location}</p>
-              {String(data.publicCheck) === "true" ? (
+            <div>
+                {String(data.publicCheck) === "true" ? (
                 <p className="text-gray-700 mb-1">Public Checked: Done</p>
               ) : (
                 <p className="text-gray-700 mb-1">Public Checked: Not Done</p>
@@ -48,9 +49,7 @@ const Modal = ({ isOpen, onClose, data }) => {
             <p>Loading...</p>
           )}
             {data ? (
-            <div className="flex flex-col items-start">
-              <p className="text-gray-700 mb-1">Problem Details:{data.problemDetail}</p>
-              <p className="text-gray-700 mb-1">Location:{data.location}</p>
+            <div>
               {String(data.authorityCheck) === "true" ? (
                 <p className="text-gray-700 mb-1">Authority Checked: Done</p>
               ) : (
@@ -60,6 +59,7 @@ const Modal = ({ isOpen, onClose, data }) => {
           ) : (
             <p>Loading...</p>
           )}
+          </div>
         </div>
         <div className="px-4 py-4 sm:px-6 flex justify-end">
           <button
