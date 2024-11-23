@@ -104,7 +104,7 @@ const UpdateIssue = () => {
       await axios.post(endpoint, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+      navigate('/');
       console.log("Problem created successfully!");
     } catch (error) {
       console.error("Error handling problem submission:", error);

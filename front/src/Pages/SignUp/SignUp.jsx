@@ -63,7 +63,8 @@ const SignUp = ({ onLogin }) => {
           setSuccess("Successfully registered as Authority!");
           alert("Successfully registered as Authority!");
           setAuthorityState({ phoneNumber: "", location: "", department: "" }); // Resetting fields after successful registration
-          navigate("/"); // Use the navigate function for redirection
+          navigate('/authority/home');
+          // Use the navigate function for redirection
         }
       }
     } catch (error) {
