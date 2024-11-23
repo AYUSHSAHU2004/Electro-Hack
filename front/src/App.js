@@ -5,6 +5,7 @@ import { auth } from './firebase/firebase';
 import axios from 'axios';
 import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp';
+import UpdatePublic from './Pages/UpdatePublic/UpdatePublic';
 import Home from './Pages/Home/Home';
 import Navbar from './components/Navbar';
 import UserDashboard from './Pages/UserDashboard/UserDashboard';
@@ -79,6 +80,10 @@ const App = () => {
         <Route
           path="/user/dashboard"
           element=<UserDashboard onLogin={setUser}/>
+        />
+        <Route
+          path="/user/dashboard/UpdatePublic/:id"
+          element=<UpdatePublic onLogin={setUser}/>
         />
       </Routes>
     </Router>

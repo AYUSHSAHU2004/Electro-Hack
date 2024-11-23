@@ -15,7 +15,7 @@ router.delete('/DeleteProblem/:id',ProblemController.DeleteProblem);
 
 
 
-router.post('/createCompleteProblem',ProblemController.createCompleteProblem);
+router.post('/createCompleteProblem',upload.single('imageUrl'),ProblemController.createCompleteProblem);
 router.get('/getAllCompleteProblem',ProblemController.getAllCompleteProblem);
 router.get('/getAllCompleteProblem/:location',ProblemController.getCompleteProblemLocation);
 router.get('/getCompleteProblem/:email',ProblemController.getCompleteProblemEmail);

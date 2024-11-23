@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PostIssue = () => {
   const email = localStorage.getItem("user");
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -52,7 +54,9 @@ const PostIssue = () => {
       previewUrl: previewUrl,
     }));
   };
-
+  const handleUpdate = async (index) =>{
+    navigate(`/user/dashboard/UpdatePublic/${index}`);
+  }
   // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -223,7 +227,7 @@ const PostIssue = () => {
                     <td className="p-2 text-left">{item.tags}</td>
                     <td className="p-2 text-left">{item.problemDetail}</td>
                     <td className="p-2 text-center">
-                      <button className="rounded-md bg-blue-500 text-white p-2 hover:bg-blue-700">
+                      <button onClick={()=>handleUpdate(item._id)} className="rounded-md bg-blue-500 text-white p-2 hover:bg-blue-700">
                         Update
                       </button>
                     </td>
