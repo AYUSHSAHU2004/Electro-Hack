@@ -39,8 +39,8 @@ const Navbar = () => {
               </>
             ) : userRole === 'AUTHORITY' ? (
               <>
+                <Link to="/authority/home" className="text-white hover:text-gray-300">Home</Link>
                 <Link to="/dashboard" className="text-white hover:text-gray-300">Dashboard</Link>
-                <Link to="/manage-reports" className="text-white hover:text-gray-300">Manage Reports</Link>
                 <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
             ) : null
