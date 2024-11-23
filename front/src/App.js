@@ -7,6 +7,7 @@ import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp';
 import UpdatePublic from './Pages/UpdatePublic/UpdatePublic';
 import Home from './Pages/Home/Home';
+import UpdateIssueA from './Pages/UpdateAuthority/UpdateAuthority';
 import Navbar from './components/Navbar';
 import UserDashboard from './Pages/UserDashboard/UserDashboard';
 
@@ -84,6 +85,10 @@ const App = () => {
         <Route
           path="/user/dashboard/UpdatePublic/:id"
           element=<UpdatePublic onLogin={setUser}/>
+        />
+        <Route
+          path="/authority/dashboard/UpdateAuthority/:id"
+          element=<UpdateIssueA onLogin={setUser}/>
         />
       </Routes>
     </Router>
