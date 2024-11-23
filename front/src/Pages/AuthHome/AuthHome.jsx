@@ -39,7 +39,7 @@ const AuthHome = () => {
     const fetchOtherData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/problems/getAllProblem"
+          `http://localhost:5000/problems/getCompleteProblem/${loc}/${dep}`
         );
         setOtherData(response.data.data);
       } catch (err) {
@@ -60,7 +60,7 @@ const AuthHome = () => {
     return (
       <div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {currentData.map((item, index) => (
+          {currentData && currentData.map((item, index) => (
             <div
               key={index}
               className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full"
@@ -130,7 +130,7 @@ const AuthHome = () => {
               : "bg-gray-300 text-black"
           } mx-2`}
         >
-          All Issues
+          Solved Issues
         </button>
       </div>
       <h2 className="text-black text-xl md:text-2xl mt-2 mb-2">{getTitle()}</h2>
