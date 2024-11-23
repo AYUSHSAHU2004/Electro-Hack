@@ -26,7 +26,7 @@ const Home = () => {
 
       const fetchOtherData = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/problems/getAllProblem'); 
+          const response = await axios.get('http://localhost:5000/problems/getAllCompleteProblem'); 
           setOtherData(response.data.data);
         } catch (err) {
           console.error('Error fetching other data:', err);
@@ -47,7 +47,7 @@ const Home = () => {
         return (
           <div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {currentData.map((item, index) => (
+            {currentData && currentData.map((item, index) => (
               <div key={index} className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full">
                 <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-52">
                   <img
