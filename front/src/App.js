@@ -16,6 +16,7 @@ import UpdateIssueA from "./Pages/UpdateAuthority/UpdateAuthority";
 import Navbar from "./components/Navbar";
 import UserDashboard from "./Pages/UserDashboard/UserDashboard";
 import AuthHome from "./Pages/AuthHome/AuthHome";
+import AbouPage from "./Pages/AboutPage/AbouPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -106,7 +107,12 @@ const App = () => {
           path="/authority/dashboard/UpdateAuthority/:id"
           element=<UpdateIssueA onLogin={setUser} />
         />
+        <Route
+          path="/about"
+          element=<AbouPage onLogin={setUser} />
+        />
       </Routes>
+
     </Router>
   );
 };

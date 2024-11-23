@@ -33,6 +33,7 @@ const Navbar = () => {
          {
             userRole === 'PUBLIC' ? (
               <>
+                <Link to="/" className="text-white hover:text-gray-300">Home</Link>
                 <Link to="/user/dashboard" className="text-white hover:text-gray-300">Dashboard</Link>
                 <Link onClick={handleLogout} to="/login" className="text-white hover:text-gray-300">Log Out</Link>
               </>
