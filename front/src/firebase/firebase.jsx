@@ -1,17 +1,16 @@
-// firebaseConfig.js
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'; // Import Firestore
 
-// Your web app's Firebase configuration
+// Your web app's Firebase configuration using environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyBC_oKfzSeJ2phlnrgR9rRKcTAF8_hM8UU",
-  authDomain: "ast-engine-rule.firebaseapp.com",
-  projectId: "ast-engine-rule",
-  storageBucket: "ast-engine-rule.appspot.com",
-  messagingSenderId: "473198018285",
-  appId: "1:473198018285:web:a83046d16c8760177416e4",
-  measurementId: "G-WXGR399HR5"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MSI,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+  measurementId: process.env.REACT_APP_FIREBASE_MID
 };
 
 // Initialize Firebase
